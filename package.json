@@ -15,7 +15,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:styles": "stylelint '**/*.scss'",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky"
   },
   "eslintConfig": {
     "extends": [
@@ -39,6 +40,7 @@
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
     "@types/jest": "^29.5.14",
     "@types/node": "^16.18.119",
