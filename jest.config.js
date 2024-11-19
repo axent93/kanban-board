@@ -7,6 +7,8 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   moduleNameMapper: {
+    // Mock SCSS and CSS imports
+    '\\.(css|scss)$': 'identity-obj-proxy',
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@/store/(.*)$': '<rootDir>/src/store/$1',
     '^@/hooks/(.*)$': '<rootDir>/src/hooks/$1',
