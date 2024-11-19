@@ -4,6 +4,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 
+import { dummyStore } from '../../__mocks__/dataMock'
 import { addNewTicket } from '../../store/reducers/boardSlice'
 import TicketForm from './TicketForm'
 
@@ -14,17 +15,12 @@ describe('TicketForm', () => {
   let setIsVisibleForm: jest.Mock
 
   beforeEach(() => {
-    store = mockStore({
-      board: {
-        columns: []
-      }
-    })
+    store = mockStore(dummyStore)
     store.dispatch = jest.fn()
-
     setIsVisibleForm = jest.fn()
   })
 
-  test('renders TicketForm component', () => {
+  it('renders TicketForm component', () => {
     render(
       <Provider store={store}>
         <TicketForm
@@ -39,7 +35,7 @@ describe('TicketForm', () => {
     expect(screen.getByText('Cancel')).toBeInTheDocument()
   })
 
-  test('handles ticket title change', () => {
+  it('handles ticket title change', () => {
     render(
       <Provider store={store}>
         <TicketForm
@@ -54,7 +50,7 @@ describe('TicketForm', () => {
     expect(input).toHaveValue('New Ticket')
   })
 
-  test('dispatches addNewTicket action on form submit', () => {
+  it('dispatches addNewTicket action on form submit', () => {
     render(
       <Provider store={store}>
         <TicketForm
@@ -79,7 +75,7 @@ describe('TicketForm', () => {
     expect(setIsVisibleForm).toHaveBeenCalledWith(false)
   })
 
-  test('does not dispatch addNewTicket action if title is empty', () => {
+  it('does not dispatch addNewTicket action if title is empty', () => {
     render(
       <Provider store={store}>
         <TicketForm
@@ -92,7 +88,7 @@ describe('TicketForm', () => {
     expect(screen.getByText('Create')).toBeInTheDocument()
   })
 
-  test('calls handleTicketFormToggle on cancel button click', () => {
+  it('calls handleTicketFormToggle on cancel button click', () => {
     render(
       <Provider store={store}>
         <TicketForm

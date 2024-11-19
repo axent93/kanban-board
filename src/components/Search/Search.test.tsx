@@ -1,6 +1,7 @@
+/* eslint-disable import/no-named-as-default */
 import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-import { configureStore } from 'redux-mock-store'
+import configureStore from 'redux-mock-store'
 
 import { setFilterString } from '../../store/reducers/boardSlice'
 import Search from './Search'
@@ -15,7 +16,7 @@ describe('Search Component', () => {
     store.dispatch = jest.fn()
   })
 
-  test('renders search input and icon', () => {
+  it('renders search input and icon', () => {
     render(
       <Provider store={store}>
         <Search />
@@ -29,7 +30,7 @@ describe('Search Component', () => {
     expect(iconElement).toBeInTheDocument()
   })
 
-  test('focuses input when icon is clicked', () => {
+  it('focuses input when icon is clicked', () => {
     render(
       <Provider store={store}>
         <Search />
@@ -43,7 +44,7 @@ describe('Search Component', () => {
     expect(inputElement).toHaveFocus()
   })
 
-  test('updates searchString state on input change', () => {
+  it('updates searchString state on input change', () => {
     render(
       <Provider store={store}>
         <Search />
@@ -56,7 +57,7 @@ describe('Search Component', () => {
     expect(inputElement).toHaveValue('test')
   })
 
-  test('dispatches setFilterString action on debounced input change', () => {
+  it('dispatches setFilterString action on debounced input change', () => {
     jest.useFakeTimers()
     render(
       <Provider store={store}>
@@ -67,7 +68,7 @@ describe('Search Component', () => {
     const inputElement = screen.getByPlaceholderText('Search for tickets...')
     fireEvent.change(inputElement, { target: { value: 'test' } })
 
-    jest.advanceTimersByTime(200)
+    jest.advanceTimersByTime(300)
 
     expect(store.dispatch).toHaveBeenCalledWith(setFilterString('test'))
   })

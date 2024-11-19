@@ -1,9 +1,10 @@
 /* eslint-disable import/no-named-as-default */
-
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 
+import { dummyStore } from './__mocks__/dataMock'
+import App from './App'
 import { TTicketList } from './components/List/List.types'
 import { computedColumns } from './store/selectors/boardSelectors'
 
@@ -12,31 +13,11 @@ jest.mock('./store/reducers/boardSlice')
 
 const mockStore = configureStore([])
 
-import App from './App'
-
 describe('App Component', () => {
   let store: ReturnType<typeof mockStore>
 
   beforeEach(() => {
-    store = mockStore({
-      searchString: 'test',
-      board: {
-        columns: [
-          {
-            id: 'column-1',
-            name: 'To Do',
-            tickets: [],
-            className: 'todo-column'
-          },
-          {
-            id: 'column-2',
-            name: 'In Progress',
-            tickets: [],
-            className: 'in-progress-column'
-          }
-        ]
-      }
-    })
+    store = mockStore(dummyStore)
     ;(computedColumns as jest.MockedFunction<typeof computedColumns>).mockReturnValue(
       (store.getState() as { board: { columns: TTicketList[] } }).board.columns
     )

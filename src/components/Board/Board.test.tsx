@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 
+import { dummyStore } from '../../__mocks__/dataMock'
 import { computedColumns } from '../../store/selectors/boardSelectors'
 import { TTicketList } from '../List/List.types'
 import Board from './Board'
@@ -16,24 +17,7 @@ describe('Board Component', () => {
   let store: ReturnType<typeof mockStore>
 
   beforeEach(() => {
-    store = mockStore({
-      board: {
-        columns: [
-          {
-            id: 'column-1',
-            name: 'To Do',
-            tickets: [],
-            className: 'todo-column'
-          },
-          {
-            id: 'column-2',
-            name: 'In Progress',
-            tickets: [],
-            className: 'in-progress-column'
-          }
-        ]
-      }
-    })
+    store = mockStore(dummyStore)
     ;(computedColumns as jest.MockedFunction<typeof computedColumns>).mockReturnValue(
       (store.getState() as { board: { columns: TTicketList[] } }).board.columns
     )

@@ -1,46 +1,12 @@
-import { DraggableProps } from '@hello-pangea/dnd'
+/* eslint-disable import/no-named-as-default */
+import '../../__mocks__/dndMock' // Adjust the import path based on your folder structure
+
 import { fireEvent, render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
-// eslint-disable-next-line import/no-named-as-default
 import configureStore from 'redux-mock-store'
 
+import { dummyList, dummyStore } from '../../__mocks__/dataMock'
 import List from './List'
-import { TTicketListProps } from './List.types'
-
-jest.mock('@hello-pangea/dnd', () => ({
-  ...jest.requireActual('@hello-pangea/dnd'),
-  Draggable: ({ children }: DraggableProps) =>
-    children(
-      {
-        draggableProps: { 'data-rfd-draggable-context-id': '1', 'data-rfd-draggable-id': '1' },
-        innerRef: jest.fn(),
-        dragHandleProps: {
-          'data-rfd-drag-handle-draggable-id': '1',
-          'data-rfd-drag-handle-context-id': '1',
-          role: 'button',
-          'aria-describedby': 'rfd-drag-handle-1',
-          tabIndex: 0,
-          draggable: true,
-          onDragStart: jest.fn()
-        }
-      },
-      {
-        isDragging: false,
-        draggingOver: null,
-        isDropAnimating: false,
-        isClone: false,
-        dropAnimation: null,
-        combineWith: null,
-        combineTargetFor: null,
-        mode: null
-      },
-      {
-        source: { index: 0, droppableId: '1' },
-        draggableId: '',
-        type: ''
-      }
-    )
-}))
 
 jest.mock('../Ticket/Ticket', () => ({ __esModule: true, default: () => <div>Mocked Ticket</div> }))
 jest.mock('../TicketForm/TicketForm', () => ({ __esModule: true, default: () => <div>Mocked TicketForm</div> }))
@@ -51,41 +17,16 @@ describe('List component', () => {
   let store: ReturnType<typeof mockStore>
 
   beforeEach(() => {
-    store = mockStore({
-      board: {
-        columns: [
-          {
-            id: 'column-1',
-            name: 'To Do',
-            tickets: [],
-            className: 'todo-column'
-          },
-          {
-            id: 'column-2',
-            name: 'In Progress',
-            tickets: [],
-            className: 'in-progress-column'
-          }
-        ]
-      }
-    })
+    store = mockStore(dummyStore)
   })
-
-  const defaultProps: TTicketListProps = {
-    id: '1',
-    tickets: [{ id: '1', title: 'Ticket' }],
-    name: 'Test List',
-    className: '',
-    placeholderNode: <div>Placeholder</div>,
-    snapshot: { isDraggingOver: false, draggingOverWith: null, draggingFromThisWith: null, isUsingPlaceholder: false },
-    'data-rfd-droppable-context-id': '123',
-    'data-rfd-droppable-id': '123'
-  }
 
   it('renders without crashing', () => {
     render(
       <Provider store={store}>
-        <List {...defaultProps} />
+        <List
+          ref={jest.fn()}
+          {...dummyList}
+        />
       </Provider>
     )
 
@@ -98,7 +39,7 @@ describe('List component', () => {
   it('toggles the ticket form visibility when the button is clicked', () => {
     const { getByText } = render(
       <Provider store={store}>
-        <List {...defaultProps} />
+        <List {...dummyList} />
       </Provider>
     )
     const button = getByText('+')
@@ -110,7 +51,7 @@ describe('List component', () => {
     const { container } = render(
       <Provider store={store}>
         <List
-          {...defaultProps}
+          {...dummyList}
           snapshot={{ isDraggingOver: true, draggingOverWith: null, draggingFromThisWith: null, isUsingPlaceholder: false }}
         />
       </Provider>

@@ -1,20 +1,9 @@
-import { DraggableStateSnapshot } from '@hello-pangea/dnd'
 import { render } from '@testing-library/react'
 
+import { dummySnapshot } from '../../__mocks__/dataMock'
 import Ticket from './Ticket'
 
 describe('Ticket Component', () => {
-  const snapshot: DraggableStateSnapshot = {
-    isDragging: false,
-    draggingOver: null,
-    combineWith: null,
-    combineTargetFor: null,
-    mode: 'FLUID',
-    isDropAnimating: false,
-    isClone: false,
-    dropAnimation: null
-  }
-
   const defaultProps = {
     title: 'Test Ticket',
     id: 'ticket-1',
@@ -25,7 +14,7 @@ describe('Ticket Component', () => {
   it('renders without crashing', () => {
     const { getByText } = render(
       <Ticket
-        snapshot={snapshot}
+        snapshot={dummySnapshot}
         {...defaultProps}
       />
     )
@@ -33,7 +22,7 @@ describe('Ticket Component', () => {
   })
 
   it('applies the correct class when dragging over "to-do"', () => {
-    const draggingSnapshot = { ...snapshot, draggingOver: 'to-do' }
+    const draggingSnapshot = { ...dummySnapshot, draggingOver: 'to-do' }
     const { container } = render(
       <Ticket
         {...defaultProps}
@@ -44,7 +33,7 @@ describe('Ticket Component', () => {
   })
 
   it('applies the correct class when dragging over "in-progress"', () => {
-    const draggingSnapshot = { ...snapshot, draggingOver: 'in-progress' }
+    const draggingSnapshot = { ...dummySnapshot, draggingOver: 'in-progress' }
     const { container } = render(
       <Ticket
         {...defaultProps}
@@ -55,7 +44,7 @@ describe('Ticket Component', () => {
   })
 
   it('applies the correct class when dragging over "done"', () => {
-    const draggingSnapshot = { ...snapshot, draggingOver: 'done' }
+    const draggingSnapshot = { ...dummySnapshot, draggingOver: 'done' }
     const { container } = render(
       <Ticket
         {...defaultProps}
@@ -69,7 +58,7 @@ describe('Ticket Component', () => {
     const { container } = render(
       <Ticket
         {...defaultProps}
-        snapshot={snapshot}
+        snapshot={dummySnapshot}
       />
     )
     expect(container.firstChild).toHaveClass('ticket-card')
