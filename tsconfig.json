@@ -1,18 +1,21 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src/",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "@/components/*": ["components/*"],
+      "@/data/*": ["data/*"],
+      "@/store/*": ["store/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/styles/*": ["styles/*"],
+    },
+    "allowJs": true,
     "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-    "paths": {
-      "@/*": ["*"],
-      "@/components/*": ["components/*"],
-      "@/styles/*": ["styles/*"],
-    },
-    "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -27,7 +30,11 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src",
+    "craco.config.js",
+    "jest.config.js",
+    "lint-staged.config.js",
+    "commitlint.config.js"
   ],
   "types": ["node", "jest", "@testing-library/jest-dom"],
   "exclude": ["node_modules"]

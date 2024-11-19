@@ -35,9 +35,17 @@
   },
   "[scss]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+    "editor.defaultFormatter": "vscode.css-language-features"
   },
   "[css]": {
     "editor.defaultFormatter": "stylelint.vscode-stylelint"
-  }
+  },
+  "cSpell.words": [
+    "craco",
+    "dragable",
+    "kanban",
+    "pangea",
+    "Parens",
+    "reduxjs"
+  ]
 }
