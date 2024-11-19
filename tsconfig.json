@@ -1,13 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["*"],
-      "@/components/*": ["components/*"],
-      "@/data/*": ["data/*"],
-      "@/store/*": ["store/*"],
-      "@/hooks/*": ["hooks/*"],
-      "@/styles/*": ["styles/*"],
+      "@/*": ["src/*"]
     },
     "allowJs": true,
     "target": "es5",
