@@ -1,44 +1,12 @@
-import { DropResult } from '@hello-pangea/dnd'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { TTicketList } from '@/components/List/List.types'
-import { TTicketCard } from '@/components/Ticket/Ticket.types'
-
-export type TReduxBoardState = {
-  ticketColumns: TTicketList[]
-  searchString: string
-}
-
-type TNewTicketAction = {
-  payload: {
-    ticket: TTicketCard
-    columnId: string
-  }
-  type: string
-}
-
-type TUpdateTicketAction = {
-  payload: {
-    ticketId: string
-    columnId: string
-    value: string
-  }
-  type: string
-}
-
-type TTicketRemoveAction = {
-  payload: {
-    ticketId: string
-    columnId: string
-  }
-  type: string
-}
-
-type TDragTicketAction = {
-  payload: {
-    result: DropResult<string>
-  }
-}
+import {
+  TDragTicketAction,
+  TNewTicketAction,
+  TReduxBoardState,
+  TTicketRemoveAction,
+  TUpdateTicketAction
+} from './boardSlice.types'
 
 const initialState: TReduxBoardState = {
   searchString: '',
