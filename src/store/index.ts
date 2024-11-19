@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { loadState, saveState } from './localStorage'
+import { loadState, saveState } from '../utils/localStorage'
 import boardReducer from './reducers/boardSlice'
 
 const persistedState = loadState()
