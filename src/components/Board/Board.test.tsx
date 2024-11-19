@@ -1,25 +1,22 @@
 /* eslint-disable import/no-named-as-default */
-
 import { render, screen } from '@testing-library/react'
 import { Provider } from 'react-redux'
 import configureStore from 'redux-mock-store'
 
-import { TTicketList } from './components/List/List.types'
-import { computedColumns } from './store/selectors/boardSelectors'
+import { computedColumns } from '../../store/selectors/boardSelectors'
+import { TTicketList } from '../List/List.types'
+import Board from './Board'
 
-jest.mock('./store/selectors/boardSelectors')
-jest.mock('./store/reducers/boardSlice')
+jest.mock('../../store/selectors/boardSelectors')
+jest.mock('../../store/reducers/boardSlice')
 
 const mockStore = configureStore([])
 
-import App from './App'
-
-describe('App Component', () => {
+describe('Board Component', () => {
   let store: ReturnType<typeof mockStore>
 
   beforeEach(() => {
     store = mockStore({
-      searchString: 'test',
       board: {
         columns: [
           {
@@ -40,27 +37,16 @@ describe('App Component', () => {
     ;(computedColumns as jest.MockedFunction<typeof computedColumns>).mockReturnValue(
       (store.getState() as { board: { columns: TTicketList[] } }).board.columns
     )
-    store.dispatch = jest.fn()
   })
 
-  it('should render the App with board', () => {
+  it('should render the board with columns', () => {
     render(
       <Provider store={store}>
-        <App />
+        <Board />
       </Provider>
     )
 
     expect(screen.getByText('To Do')).toBeInTheDocument()
     expect(screen.getByText('In Progress')).toBeInTheDocument()
-  })
-
-  it('should render the App with search', () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>
-    )
-
-    expect(screen.getByPlaceholderText('Search for tickets...')).toBeInTheDocument()
   })
 })
