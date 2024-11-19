@@ -12,7 +12,6 @@ const mockStore = configureStore([])
 describe('TicketForm', () => {
   let store: ReturnType<typeof mockStore>
   let setIsVisibleForm: jest.Mock
-  let handleTicketFormToggle: jest.Mock
 
   beforeEach(() => {
     store = mockStore({
@@ -23,7 +22,6 @@ describe('TicketForm', () => {
     store.dispatch = jest.fn()
 
     setIsVisibleForm = jest.fn()
-    handleTicketFormToggle = jest.fn()
   })
 
   test('renders TicketForm component', () => {
@@ -31,7 +29,6 @@ describe('TicketForm', () => {
       <Provider store={store}>
         <TicketForm
           setIsVisibleForm={setIsVisibleForm}
-          handleTicketFormToggle={handleTicketFormToggle}
           columnId='column-1'
         />
       </Provider>
@@ -47,7 +44,6 @@ describe('TicketForm', () => {
       <Provider store={store}>
         <TicketForm
           setIsVisibleForm={setIsVisibleForm}
-          handleTicketFormToggle={handleTicketFormToggle}
           columnId='column-1'
         />
       </Provider>
@@ -63,7 +59,6 @@ describe('TicketForm', () => {
       <Provider store={store}>
         <TicketForm
           setIsVisibleForm={setIsVisibleForm}
-          handleTicketFormToggle={handleTicketFormToggle}
           columnId='column-1'
         />
       </Provider>
@@ -89,7 +84,6 @@ describe('TicketForm', () => {
       <Provider store={store}>
         <TicketForm
           setIsVisibleForm={setIsVisibleForm}
-          handleTicketFormToggle={handleTicketFormToggle}
           columnId='column-1'
         />
       </Provider>
@@ -103,7 +97,6 @@ describe('TicketForm', () => {
       <Provider store={store}>
         <TicketForm
           setIsVisibleForm={setIsVisibleForm}
-          handleTicketFormToggle={handleTicketFormToggle}
           columnId='column-1'
         />
       </Provider>

@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import { TTicketCard } from '@/components/Ticket/Ticket.types'
 
-import boardReducer, { addNewTicket, dragTicket, setFilterString } from './boardSlice'
+import boardReducer, { addNewTicket, dragTicket, removeTicket, setFilterString, updateTicket } from './boardSlice'
 
 describe('boardSlice', () => {
   const initialState = {
@@ -49,6 +49,18 @@ describe('boardSlice', () => {
     const newTicket: TTicketCard = { id: '1', title: 'Test Ticket' }
     store.dispatch(addNewTicket({ ticket: newTicket, columnId: 'to-do' }))
     expect(store.getState().board.ticketColumns[0].tickets).toContainEqual(newTicket)
+  })
+
+  it('should handle updateTicket', () => {
+    const newTicket: TTicketCard = { id: '1', title: 'Test Ticket 2' }
+    store.dispatch(updateTicket({ ticketId: '1', columnId: 'to-do', value: 'Test Ticket 2' }))
+    expect(store.getState().board.ticketColumns[0].tickets).toContainEqual(newTicket)
+  })
+
+  it('should handle removeTicket', () => {
+    const newTicket: TTicketCard = { id: '1', title: 'Test Ticket' }
+    store.dispatch(removeTicket({ ticketId: '1', columnId: 'to-do' }))
+    expect(store.getState().board.ticketColumns[0].tickets).not.toContain(newTicket)
   })
 
   it('should handle dragTicket', () => {

@@ -15,12 +15,18 @@ describe('Ticket Component', () => {
     dropAnimation: null
   }
 
+  const defaultProps = {
+    title: 'Test Ticket',
+    id: 'ticket-1',
+    handleDoubleClickEvent: jest.fn(),
+    handleDeleteTicket: jest.fn()
+  }
+
   it('renders without crashing', () => {
     const { getByText } = render(
       <Ticket
-        title='Test Ticket'
-        id='ticket-1'
         snapshot={snapshot}
+        {...defaultProps}
       />
     )
     expect(getByText('Test Ticket')).toBeInTheDocument()
@@ -30,8 +36,7 @@ describe('Ticket Component', () => {
     const draggingSnapshot = { ...snapshot, draggingOver: 'to-do' }
     const { container } = render(
       <Ticket
-        id='ticket-1'
-        title='Test Ticket'
+        {...defaultProps}
         snapshot={draggingSnapshot}
       />
     )
@@ -42,8 +47,7 @@ describe('Ticket Component', () => {
     const draggingSnapshot = { ...snapshot, draggingOver: 'in-progress' }
     const { container } = render(
       <Ticket
-        id='ticket-1'
-        title='Test Ticket'
+        {...defaultProps}
         snapshot={draggingSnapshot}
       />
     )
@@ -54,8 +58,7 @@ describe('Ticket Component', () => {
     const draggingSnapshot = { ...snapshot, draggingOver: 'done' }
     const { container } = render(
       <Ticket
-        id='ticket-1'
-        title='Test Ticket'
+        {...defaultProps}
         snapshot={draggingSnapshot}
       />
     )
@@ -65,8 +68,7 @@ describe('Ticket Component', () => {
   it('applies the default class when not dragging over any column', () => {
     const { container } = render(
       <Ticket
-        id='ticket-1'
-        title='Test Ticket'
+        {...defaultProps}
         snapshot={snapshot}
       />
     )

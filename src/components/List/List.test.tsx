@@ -1,5 +1,8 @@
 import { DraggableProps } from '@hello-pangea/dnd'
 import { fireEvent, render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
+// eslint-disable-next-line import/no-named-as-default
+import configureStore from 'redux-mock-store'
 
 import List from './List'
 import { TTicketListProps } from './List.types'
@@ -42,7 +45,32 @@ jest.mock('@hello-pangea/dnd', () => ({
 jest.mock('../Ticket/Ticket', () => ({ __esModule: true, default: () => <div>Mocked Ticket</div> }))
 jest.mock('../TicketForm/TicketForm', () => ({ __esModule: true, default: () => <div>Mocked TicketForm</div> }))
 
+const mockStore = configureStore([])
+
 describe('List component', () => {
+  let store: ReturnType<typeof mockStore>
+
+  beforeEach(() => {
+    store = mockStore({
+      board: {
+        columns: [
+          {
+            id: 'column-1',
+            name: 'To Do',
+            tickets: [],
+            className: 'todo-column'
+          },
+          {
+            id: 'column-2',
+            name: 'In Progress',
+            tickets: [],
+            className: 'in-progress-column'
+          }
+        ]
+      }
+    })
+  })
+
   const defaultProps: TTicketListProps = {
     id: '1',
     tickets: [{ id: '1', title: 'Ticket' }],
@@ -55,7 +83,11 @@ describe('List component', () => {
   }
 
   it('renders without crashing', () => {
-    render(<List {...defaultProps} />).debug()
+    render(
+      <Provider store={store}>
+        <List {...defaultProps} />
+      </Provider>
+    )
 
     expect(screen.getByText('Test List')).toBeInTheDocument()
     expect(screen.getByText(/(1)/)).toBeInTheDocument()
@@ -64,7 +96,11 @@ describe('List component', () => {
   })
 
   it('toggles the ticket form visibility when the button is clicked', () => {
-    const { getByText } = render(<List {...defaultProps} />)
+    const { getByText } = render(
+      <Provider store={store}>
+        <List {...defaultProps} />
+      </Provider>
+    )
     const button = getByText('+')
     fireEvent.click(button)
     expect(getByText('Mocked TicketForm')).toBeInTheDocument()
@@ -72,10 +108,12 @@ describe('List component', () => {
 
   it('applies the active class when isDraggingOver is true', () => {
     const { container } = render(
-      <List
-        {...defaultProps}
-        snapshot={{ isDraggingOver: true, draggingOverWith: null, draggingFromThisWith: null, isUsingPlaceholder: false }}
-      />
+      <Provider store={store}>
+        <List
+          {...defaultProps}
+          snapshot={{ isDraggingOver: true, draggingOverWith: null, draggingFromThisWith: null, isUsingPlaceholder: false }}
+        />
+      </Provider>
     )
     expect(container.querySelector('.tickets-column__list')).toHaveClass('active')
   })

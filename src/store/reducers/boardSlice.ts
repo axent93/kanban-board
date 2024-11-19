@@ -17,6 +17,23 @@ type TNewTicketAction = {
   type: string
 }
 
+type TUpdateTicketAction = {
+  payload: {
+    ticketId: string
+    columnId: string
+    value: string
+  }
+  type: string
+}
+
+type TTicketRemoveAction = {
+  payload: {
+    ticketId: string
+    columnId: string
+  }
+  type: string
+}
+
 type TDragTicketAction = {
   payload: {
     result: DropResult<string>
@@ -61,7 +78,7 @@ const boardSlice = createSlice({
       state.searchString = action.payload
     },
     /**
-     * This reducer handles new ticket addition at the begining of the ticket list
+     * This reducer handles new ticket addition at the beginning of the ticket list
      *
      * @param state TReduxBoardState
      * @param action TNewTicketAction
@@ -71,6 +88,34 @@ const boardSlice = createSlice({
       const column = state.ticketColumns.find(col => col.id === columnId)
       if (column) {
         column.tickets = [ticket, ...column.tickets]
+      }
+    },
+    /**
+     * This reducer handles ticket update by ID
+     *
+     * @param state TReduxBoardState
+     * @param action TNewTicketAction
+     */
+    updateTicket(state, action: TUpdateTicketAction): void {
+      const { ticketId, columnId, value } = action.payload
+      const column = state.ticketColumns.find(col => col.id === columnId)
+      if (column) {
+        const ticket = column.tickets.find(ticket => ticket.id === ticketId)
+        if (ticket) ticket.title = value
+      }
+    },
+    /**
+     * This reducer handles ticket removal by ID
+     *
+     * @param state TReduxBoardState
+     * @param action TTicketRemoveAction
+     */
+    removeTicket(state, action: TTicketRemoveAction): void {
+      const { ticketId, columnId } = action.payload
+
+      const column = state.ticketColumns.find(col => col.id === columnId)
+      if (column) {
+        column.tickets = column.tickets.filter(ticket => ticket.id !== ticketId)
       }
     },
     /**
@@ -105,4 +150,4 @@ const boardSlice = createSlice({
 
 export default boardSlice.reducer
 
-export const { addNewTicket, dragTicket, setFilterString } = boardSlice.actions
+export const { addNewTicket, updateTicket, removeTicket, dragTicket, setFilterString } = boardSlice.actions

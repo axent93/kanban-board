@@ -4,22 +4,27 @@ import { useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
 import { useAppDispatch } from '../../hooks/useAppStore'
-import { addNewTicket } from '../../store/reducers/boardSlice'
+import { addNewTicket, updateTicket } from '../../store/reducers/boardSlice'
 import { TTicketFormProps } from './TicketForm.types'
 
 const TicketForm: React.FC<TTicketFormProps> = props => {
-  const { setIsVisibleForm, handleTicketFormToggle, columnId } = props
-  const [ticketTitle, setTicketTitle] = useState<string>('')
+  const { setIsVisibleForm, value, selectedTicket, setSelectedTicket, columnId } = props
+  const [ticketTitle, setTicketTitle] = useState<string>(value || '')
   const dispatch = useAppDispatch()
 
   /**
-   * Handles new ticket addition to redux state
+   * Handles ticket addition or update to redux state
    * After ticket is added, form is closed and input value is cleared
    *
    * @param event MouseEvent<HTMLButtonElement>
    */
   const handleTicketUpdate = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
     event.preventDefault()
+    if (selectedTicket) {
+      dispatch(updateTicket({ ticketId: selectedTicket, columnId, value: ticketTitle }))
+      if (setSelectedTicket) setSelectedTicket('')
+      return
+    }
     if (!ticketTitle) return
     const id = uuid()
     dispatch(addNewTicket({ ticket: { title: ticketTitle, id }, columnId }))
@@ -33,6 +38,17 @@ const TicketForm: React.FC<TTicketFormProps> = props => {
    */
   const handleTicketTitleChange = (event: React.ChangeEvent<HTMLInputElement>): void => setTicketTitle(event.target.value)
 
+  /**
+   * Handles form close if selectedTicket is set or if new ticket form is visible
+   * @param event React.MouseEvent<HTMLButtonElement>
+   * @returns void
+   */
+  const handleFormClose = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+    event.preventDefault()
+    if (selectedTicket && setSelectedTicket) setSelectedTicket('')
+    else setIsVisibleForm(false)
+  }
+
   return (
     <form
       name='ticket-form'
@@ -43,7 +59,7 @@ const TicketForm: React.FC<TTicketFormProps> = props => {
         required
         className='ticket-form__input'
         name='ticket-title'
-        placeholder='Add new ticket'
+        {...(!selectedTicket && { placeholder: 'Add new ticket' })}
         id='ticket-title'
         onChange={handleTicketTitleChange}
       />
@@ -53,10 +69,10 @@ const TicketForm: React.FC<TTicketFormProps> = props => {
         disabled={!ticketTitle}
         className='ticket-form__button ticket-form__button--create'
       >
-        Create
+        {selectedTicket ? 'Update' : 'Create'}
       </button>
       <button
-        onClick={handleTicketFormToggle}
+        onClick={handleFormClose}
         className='ticket-form__button ticket-form__button--cancel'
       >
         Cancel

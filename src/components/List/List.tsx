@@ -1,22 +1,69 @@
 import './List.scss'
 
-import { Draggable } from '@hello-pangea/dnd'
-import { forwardRef, useState } from 'react'
+import React, { forwardRef, useCallback, useState } from 'react'
 
-import Ticket from '../Ticket/Ticket'
+import { useAppDispatch } from '../../hooks/useAppStore'
+import { removeTicket } from '../../store/reducers/boardSlice'
+import DraggableTicket from '../DragableTicket/DragableTicket'
+import { TTicketCard } from '../Ticket/Ticket.types'
 import TicketForm from '../TicketForm/TicketForm'
 import { TTicketListProps } from './List.types'
 
 const List = forwardRef<HTMLElement, TTicketListProps>((props, ref) => {
   const { id: columnId, tickets, name, className = '', placeholderNode, snapshot, ...droppableProps } = props
   const [isVisibleForm, setIsVisibleForm] = useState<boolean>(false)
+  const [selectedTicket, setSelectedTicket] = useState<string>('')
+  const dispatch = useAppDispatch()
 
   /**
-   * Handles ticket form creating toggle
+   * Handles ticket double click event for editing
+   * @param event - React.MouseEvent<HTMLElement>
+   * @param id - string
    */
-  const handleTicketFormToggle = (): void => {
-    setIsVisibleForm(prev => !prev)
+  const handleDoubleClickEvent = (event: React.MouseEvent<HTMLElement>, id: string) => {
+    event.preventDefault()
+    setSelectedTicket(id)
   }
+
+  /**
+   * Handles ticket deleting
+   * @param event - React.MouseEvent<HTMLButtonElement>
+   * @param id - string
+   */
+  const handleDeleteTicket = (event: React.MouseEvent<HTMLButtonElement>, id: string) => {
+    event.preventDefault()
+    dispatch(removeTicket({ ticketId: id, columnId }))
+  }
+
+  /**
+   * Renders ticket or ticket form based on selected ticket state
+   * @param ticket - TTicketCard
+   * @param index - number
+   * @returns JSX.Element
+   */
+  const renderTicket = useCallback(
+    (ticket: TTicketCard, index: number) => {
+      return selectedTicket === ticket.id ? (
+        <TicketForm
+          key={`form-${ticket.id}`}
+          columnId={columnId}
+          selectedTicket={selectedTicket}
+          setSelectedTicket={setSelectedTicket}
+          setIsVisibleForm={setIsVisibleForm}
+          value={ticket.title}
+        />
+      ) : (
+        <DraggableTicket
+          key={ticket.id}
+          ticket={ticket}
+          index={index}
+          handleDoubleClickEvent={handleDoubleClickEvent}
+          handleDeleteTicket={handleDeleteTicket}
+        />
+      )
+    },
+    [selectedTicket, columnId, setSelectedTicket, setIsVisibleForm, handleDoubleClickEvent, handleDeleteTicket]
+  )
 
   return (
     <li className={`tickets-column ${className}`}>
@@ -26,7 +73,7 @@ const List = forwardRef<HTMLElement, TTicketListProps>((props, ref) => {
           <strong>({tickets.length})</strong>
         </p>
         <button
-          onClick={handleTicketFormToggle}
+          onClick={() => setIsVisibleForm(true)}
           className='tickets-column__heading--button'
         >
           +
@@ -35,34 +82,15 @@ const List = forwardRef<HTMLElement, TTicketListProps>((props, ref) => {
       <section
         ref={ref}
         {...droppableProps}
-        className={`tickets-column__list ${snapshot.isDraggingOver ? 'active' : ''}`}
+        className={`tickets-column__list${snapshot.isDraggingOver ? ' active' : ''}`}
       >
         {isVisibleForm && (
           <TicketForm
             columnId={columnId}
             setIsVisibleForm={setIsVisibleForm}
-            handleTicketFormToggle={handleTicketFormToggle}
           />
         )}
-        {tickets.map((ticket, index) => (
-          <Draggable
-            key={ticket.id}
-            draggableId={ticket.id}
-            index={index}
-          >
-            {(provided, snapshot) => (
-              <Ticket
-                ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-                snapshot={snapshot}
-                key={`${name}-${index}-ticket`}
-                title={ticket.title}
-                id={ticket.id}
-              />
-            )}
-          </Draggable>
-        ))}
+        {tickets.map(renderTicket)}
         {placeholderNode}
       </section>
     </li>
