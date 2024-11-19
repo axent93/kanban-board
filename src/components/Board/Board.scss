@@ -1,0 +1,19 @@
+@import "@/styles/variables";
+@import "@/styles/mixins";
+
+.knb-board {
+  list-style: none;
+  overflow-x: auto;
+  display: grid;
+  gap: $base-sizing-unit/2;
+  padding: 0;
+  margin: 0 auto;
+
+  @media screen and (min-width: $large-desktop-breakpoint) {
+    justify-content: center;
+  }
+
+  @media screen and (min-width: $desktop-breakpoint) {
+    width: 100%;
+  }
+}

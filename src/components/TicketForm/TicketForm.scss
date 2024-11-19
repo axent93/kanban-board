@@ -1,0 +1,70 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.ticket-form {
+  padding: $base-sizing-unit;
+  box-shadow: 8px 8px 0 -4px $shadow-base-bg;
+  margin-bottom: $base-sizing-unit/2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+
+  &__input {
+    width: 100%;
+    overflow: hidden;
+    color: $base-white;
+    padding: $base-sizing-unit/2;
+    font-weight: 600;
+    border: none;
+    resize: none;
+    font-size: $base-sizing-unit;
+    min-height: 30px;
+    margin-bottom: $base-sizing-unit/2;
+    flex: 1 auto;
+    height: auto;
+  }
+
+  &__button {
+    width: 100%;
+    color: $base-white;
+    border: none;
+    transition: background-color .3s;
+    cursor: pointer;
+    padding: $base-sizing-unit/2;
+    max-width: 100px;
+
+    &--create {
+      background-color: $create-form-btn-color;
+
+      &:hover {
+        background-color: lighten($create-form-btn-color, 10%);
+      }
+
+      &:disabled {
+        background-color: $create-form-btn-disabled;
+        cursor: not-allowed;
+      }
+    }
+
+    &--cancel {
+      background-color: $cancel-form-btn-color;
+
+      &:hover {
+        background-color: lighten($cancel-form-btn-color, 10%);
+      }
+    }
+  }
+
+}
+
+.to-do {
+  @include form-background($to-do-column-bg, 30%);
+}
+
+.in-progress {
+  @include form-background($in-progress-column-bg, 30%);
+}
+
+.done {
+  @include form-background($done-column-bg, 30%);
+}

@@ -1,0 +1,35 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.ticket-search {
+  @include flexCenter;
+
+  border: 1px solid $search-primary-color;
+  border-radius: 5px;
+  overflow: hidden;
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+
+  &__icon {
+    cursor: text;
+    width: $base-sizing-unit*1.5;
+    height: $base-sizing-unit*1.5;
+    fill: $search-primary-color
+  }
+
+  &__input {
+    color: $search-input-text-color;
+    font-size: large;
+    border: 0;
+    height: $base-sizing-unit*2;
+    padding: 0 $base-sizing-unit/2;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

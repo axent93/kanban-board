@@ -1,0 +1,90 @@
+@import '@/styles/variables';
+@import '@/styles/mixins';
+
+.tickets-column {
+  color: $base-white;
+
+  &__list {
+    padding: $base-sizing-unit*3;
+    padding-top: $base-sizing-unit*2;
+    display: flex;
+    flex-flow: column nowrap;
+
+    @media screen and (max-width: $large-desktop-breakpoint) {
+      padding: $base-sizing-unit*1.5;
+      padding-top: $base-sizing-unit;
+    }
+
+    @media screen and (max-width: $desktop-breakpoint) {
+      padding: $base-sizing-unit;
+    }
+  }
+
+  &__heading {
+    @include flexCenter;
+
+    position: relative;
+    padding: $base-sizing-unit*1.5;
+    margin-bottom: $base-sizing-unit/2;
+    flex-wrap: wrap;
+    text-align: center;
+
+    h3 {
+      width: 100%;
+      margin: 0;
+    }
+
+    p {
+      width: 100%;
+      margin: 0;
+    }
+
+    &--button {
+      background-color: unset;
+      border: unset;
+      color: $base-white;
+      font-size: $base-sizing-unit*2;
+      position: absolute;
+      z-index: 1;
+      right: 10%;
+      bottom: 50%;
+      cursor: pointer;
+      transform: translate(50%, 50%);
+
+      &:hover {
+        color: #000;
+        transition: color 0.3s;
+      }
+    }
+  }
+
+  &.to-do {
+    .tickets-column__heading {
+      @include ticket-heading($to-do-column-bg, 40%);
+    }
+
+    .tickets-column__list {
+      @include ticket-column-styles($to-do-column-bg, 60%);
+    }
+  }
+
+  &.in-progress {
+    .tickets-column__heading {
+      @include ticket-heading($in-progress-column-bg, 40%);
+    }
+
+    .tickets-column__list {
+      @include ticket-column-styles($in-progress-column-bg, 60%);
+    }
+  }
+
+  &.done {
+    .tickets-column__heading {
+      @include ticket-heading($done-column-bg, 40%);
+    }
+
+    .tickets-column__list {
+      @include ticket-column-styles($done-column-bg, 60%);
+    }
+  }
+}

@@ -1,0 +1,53 @@
+@mixin resetSizing {
+  margin: 0;
+  padding: 0;
+}
+
+@mixin flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+@mixin ticket-column-styles($column-bg, $darken-level) {
+  background-color: $column-bg;
+
+  &.active {
+    background-color: darken($column-bg, $darken-level);
+  }
+
+  .ticket-card {
+    background-color: darken($column-bg, 30%);
+
+    &.to-do-color {
+      background-color: darken($to-do-column-bg, 30%);
+    }
+
+    &.in-progress-color {
+      background-color: darken($in-progress-column-bg, 30%);
+    }
+
+    &.done-color {
+      background-color: darken($done-column-bg, 30%);
+    }
+  }
+}
+
+@mixin ticket-heading($bg-color, $darken-level) {
+  background-color: darken($bg-color, $darken-level);
+}
+
+@mixin form-background($column-bg, $darken-level) {
+  .ticket-form {
+    background-color: darken($column-bg, $darken-level);
+
+    &__input {
+      background-color: darken($column-bg, $darken-level * 2);
+
+      &:focus {
+        outline: darken($column-bg, $darken-level);
+      }
+    }
+  }
+}

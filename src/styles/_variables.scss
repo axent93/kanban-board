@@ -1,0 +1,24 @@
+// base colors
+$base-white: #fff;
+
+// base column backgrounds
+$to-do-column-bg: #c5e0f3;
+$in-progress-column-bg: #ecc0c4;
+$done-column-bg: #a8bfca;
+
+// base ui elements colors
+$cancel-form-btn-color: #7b0000;
+$create-form-btn-color: #007115;
+$create-form-btn-disabled: #8e8e8e;
+$shadow-base-bg: #6e6e6e35;
+$search-input-text-color: #3d3d3d;
+$search-primary-color: #6c6c6c;
+
+// base units
+$base-sizing-unit: 1rem;
+
+// base breakpoints
+$mobile-breakpoint: 480px;
+$tablet-breakpoint: 768px;
+$desktop-breakpoint: 1024px;
+$large-desktop-breakpoint: 1200px;

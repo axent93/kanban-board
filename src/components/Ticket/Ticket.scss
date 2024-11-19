@@ -1,0 +1,13 @@
+@import '@/styles/variables';
+
+.ticket-card {
+  padding: $base-sizing-unit/2;
+  box-shadow: 8px 8px 0 -4px $shadow-base-bg;
+  user-select: none;
+  cursor: grab;
+  margin: .3rem 0;
+
+  h4 {
+    font-weight: bold;
+  }
+}
